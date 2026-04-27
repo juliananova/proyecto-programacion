@@ -8,7 +8,7 @@ def cargar_datos(nombre_archivo):
     base_datos = []
     contador_lineas = 0
     
-    archivo = open(nombre_archivo, mode='r', encoding='utf-8')
+    archivo = open(nombre_archivo,'r', encoding='utf-8')
     datos_archivo = csv.reader(archivo, delimiter=';') 
     
     for fila in datos_archivo:
@@ -17,9 +17,9 @@ def cargar_datos(nombre_archivo):
         else:
             if len(fila) >= 2:
                 
-                match = re.search(r'\d{1,4}[/-]\d{1,4}[/-]\d{2,4}', fila[0])
-                if match:
-                    fecha = match.group()
+                fecha_detectada = re.search(r'\d{1,4}[/-]\d{1,4}[/-]\d{2,4}', fila[0])
+                if fecha_detectada:
+                    fecha = fecha_detectada.group()
                     numero_texto = fila[1].replace(',', '.')
                     numero = float(numero_texto)
                     base_datos.append([fecha, numero])
@@ -55,7 +55,7 @@ def hacer_grafica(datos):
         eje_y.append(fila[1])
     
     plt.figure(figsize=(10, 5))
-    plt.plot(eje_x, eje_y, color='green')
+    plt.plot(eje_x, eje_y, color='blue')
     plt.title("Analisis de Datos - Ciencias del Sistema Tierra")
     plt.xlabel("Fechas")
     plt.ylabel("Valores")
@@ -65,7 +65,7 @@ def hacer_grafica(datos):
     plt.show()
 
 def programa():
-    archivo_usuario = input("Escribe el nombre del archivo (ej: ClimateEngine.csv): ")
+    archivo_usuario = input("Escribe el nombre del archivo (ej: Precipitacion.csv): ")
     
     
     base_datos = cargar_datos(archivo_usuario)
@@ -84,7 +84,7 @@ def programa():
         
         if opcion == "1":
             res_media, res_mediana, res_moda = calcular_estadisticas(base_datos)
-            print("\n--- RESULTADOS ---")
+            print("--- RESULTADOS ---")
             print("Media:", round(res_media, 2))
             print("Mediana:", res_mediana)
             print("Moda:", res_moda)
@@ -110,7 +110,7 @@ def programa():
                 if fila[0] == fecha_editar:
                     nuevo_valor = float(input("Escribe el nuevo valor: "))
                     fila[1] = nuevo_valor
-                    print("¡Dato actualizado!")
+                    print("Dato actualizado")
                     encontrado = True
             if encontrado == False:
                 print("No se encontro esa fecha.")
@@ -136,4 +136,5 @@ def programa():
         elif opcion == "6":
             print("Cerrando el sistema")
 
-programa()
+programa()  
+    
